@@ -25,7 +25,7 @@ in a source file.
 If your running in a Linux container (boot2docker, docker-machine vbox, etc)
 you will need to give the container the capability to use `seccomp`.
 
-`docker create --cap-add=SYS_ADMIN ...`
+`docker run --cap-add=SYS_ADMIN ...`
 
 docker-compose:
 ```
