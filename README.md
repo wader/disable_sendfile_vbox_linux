@@ -1,9 +1,9 @@
 ##### Go VirtualBox vboxsf sendfile bug workaround
 
-If you are servering static content from a shared folder you might have run
-into a vboxsf sendfile bug corrupt files etc. This hack disables the sendfile
+If you are serve static content from a shared folder you might have run
+into a vboxsf file corruption bug etc. This hack disables the sendfile
 syscall for the go process which will force the standard library to fallback
-to userland buffered io.
+to userland buffered IO.
 
 References:  
 [Ticket #9069 shared folder doesn't seem to update](https://www.virtualbox.org/ticket/9069)  
@@ -22,7 +22,7 @@ in a source file.
 
 ##### Docker or other containers
 
-If your are running in a Linux container (boot2docker, docker-machine vbox, etc)
+If your running in a Linux container (boot2docker, docker-machine vbox, etc)
 you will need to give the container the capability to use `seccomp`.
 
 `docker create --cap-add=SYS_ADMIN ...`
