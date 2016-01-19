@@ -1,9 +1,9 @@
 ##### Go VirtualBox vboxsf sendfile bug workaround
 
-If you are serve static content from a shared folder you might have run
-into a vboxsf file corruption bug etc. This hack disables the sendfile
-syscall for the go process which will force the standard library to fallback
-to userland buffered IO.
+If you serve static content from a shared folder you might have run into a
+vboxsf file corruption bug. This hack disables the sendfile syscall for
+the go process which will force the standard library to fallback to userland
+buffered IO.
 
 References:  
 [Ticket #9069 shared folder doesn't seem to update](https://www.virtualbox.org/ticket/9069)  
