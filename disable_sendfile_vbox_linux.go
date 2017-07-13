@@ -1,12 +1,6 @@
 // VirtualBox vboxsf sendfile bug workaround
 // use seccomp to make sendfile return ENOTSUP which makes go http fallback to io.Copy
 //
-// if running in docker make sure to give SYS_ADMIN capabilities to container:
-// docker create --cap-add=SYS_ADMIN
-// docker-compose:
-// cap_add:
-//   - SYS_ADMIN
-//
 // Licensed as public domain
 // mattias.wadman@gmail.com
 
@@ -59,6 +53,22 @@ func init() {
 		sysSeccomp = 317
 	} else {
 		sysSeccomp = 354
+	}
+
+	// for some reason not defined for some archs in syscall package
+	// https://github.com/torvalds/linux/blob/master/include/uapi/linux/prctl.h
+	const PR_SET_NO_NEW_PRIVS = 38
+
+	// set no new privs so that we can install seccomp filter as non-root
+	// https://github.com/torvalds/linux/blob/master/Documentation/userspace-api/no_new_privs.rst
+	if r1, r2, errno :=
+		syscall.Syscall(
+			uintptr(syscall.SYS_PRCTL),
+			uintptr(PR_SET_NO_NEW_PRIVS),
+			uintptr(1),
+			uintptr(0)); errno != 0 {
+		fmt.Printf("WARNING: prctl PR_SET_NO_NEW_PRIVS FAILED r1=%d r2=%d %v\n", r1, r2, errno)
+		return
 	}
 
 	/*

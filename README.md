@@ -20,20 +20,6 @@ import (
 ```
 in a source file.
 
-##### Docker or other containers
-
-If your running in a Linux container (boot2docker, docker-machine vbox, etc)
-you will need to give the container the capability to use `seccomp`.
-
-`docker run --cap-add=SYS_ADMIN ...`
-
-docker-compose:
-```
-service:
-	cap_add:
-		- SYS_ADMIN
-```
-
 ##### License
 
 Public domain. Your free to do whatever you want.
